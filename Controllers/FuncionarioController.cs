@@ -40,7 +40,7 @@ namespace PIM_IV.Controllers
           {
               return NotFound();
           }
-            var funcionarioModel = await _context.FuncionarioModel.FindAsync(cpf);
+            var funcionarioModel = await _context.FuncionarioModel.FirstOrDefaultAsync(f => f.cpf_funcionario == cpf);
 
             if (funcionarioModel == null)
             {
@@ -58,6 +58,18 @@ namespace PIM_IV.Controllers
             if (cpf != funcionarioModel.cpf_funcionario)
             {
                 return BadRequest();
+            }
+
+            //var funcionarioExistente = await _context.FuncionarioModel.FirstOrDefaultAsync(f => f.cpf_funcionario == cpf);
+
+            //if (funcionarioExistente == null)
+            //{
+            //    return NotFound("Funcionário não encontrado.");
+            //}
+
+            if (funcionarioModel.data_nascimento_funcionario.HasValue)
+            {
+                funcionarioModel.data_nascimento_funcionario = funcionarioModel.data_nascimento_funcionario.Value.Date.ToUniversalTime();
             }
 
             _context.Entry(funcionarioModel).State = EntityState.Modified;
@@ -115,14 +127,11 @@ namespace PIM_IV.Controllers
         [HttpDelete("{cpf}")]
         public async Task<IActionResult> DeleteFuncionarioModel(string cpf)
         {
-            if (_context.FuncionarioModel == null)
-            {
-                return NotFound();
-            }
-            var funcionarioModel = await _context.FuncionarioModel.FindAsync(cpf);
+            var funcionarioModel = await _context.FuncionarioModel.FirstOrDefaultAsync(f => f.cpf_funcionario == cpf);
+
             if (funcionarioModel == null)
             {
-                return NotFound();
+                return NotFound("Funcionário não encontrado.");
             }
 
             _context.FuncionarioModel.Remove(funcionarioModel);
@@ -130,6 +139,7 @@ namespace PIM_IV.Controllers
 
             return NoContent();
         }
+
 
         private bool FuncionarioModelExists(string cpf)
         {
