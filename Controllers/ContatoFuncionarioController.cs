@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/ContatoFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ContatoModel>> GetContatoModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<ContatoModel>> GetContatoModel(string cpf)
         {
           if (_context.ContatoModel == null)
           {
               return NotFound();
           }
-            var contatoModel = await _context.ContatoModel.FindAsync(id);
+            var contatoModel = await _context.ContatoModel.FirstOrDefaultAsync(c => c.cpf_contato == cpf);
 
             if (contatoModel == null)
             {
@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/ContatoFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutContatoModel(int id, ContatoModel contatoModel)
+        [HttpPut("{cpf}")]
+        public async Task<IActionResult> PutContatoModel(string cpf, ContatoModel contatoModel)
         {
-            if (id != contatoModel.id_contato)
+            if (cpf != contatoModel.cpf_contato)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContatoModelExists(id))
+                if (!ContatoModelExists(cpf))
                 {
                     return NotFound();
                 }
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/ContatoFuncionario/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContatoModel(int id)
+        [HttpDelete("{cpf}")]
+        public async Task<IActionResult> DeleteContatoModel(string cpf)
         {
             if (_context.ContatoModel == null)
             {
                 return NotFound();
             }
-            var contatoModel = await _context.ContatoModel.FindAsync(id);
+            var contatoModel = await _context.ContatoModel.FindAsync(cpf);
             if (contatoModel == null)
             {
                 return NotFound();
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool ContatoModelExists(int id)
+        private bool ContatoModelExists(string cpf)
         {
-            return (_context.ContatoModel?.Any(e => e.id_contato == id)).GetValueOrDefault();
+            return (_context.ContatoModel?.Any(e => e.cpf_contato == cpf)).GetValueOrDefault();
         }
     }
 }

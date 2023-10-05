@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/EnderecoFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EnderecoModel>> GetEnderecoModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<EnderecoModel>> GetEnderecoModel(string cpf)
         {
           if (_context.EnderecoModel == null)
           {
               return NotFound();
           }
-            var enderecoModel = await _context.EnderecoModel.FindAsync(id);
+            var enderecoModel = await _context.EnderecoModel.FirstOrDefaultAsync(e => e.cpf_endereco == cpf);
 
             if (enderecoModel == null)
             {
@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/EnderecoFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEnderecoModel(int id, EnderecoModel enderecoModel)
+        [HttpPut("{cpf}")]
+        public async Task<IActionResult> PutEnderecoModel(string cpf, EnderecoModel enderecoModel)
         {
-            if (id != enderecoModel.id_endereco)
+            if (cpf != enderecoModel.cpf_endereco)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EnderecoModelExists(id))
+                if (!EnderecoModelExists(cpf))
                 {
                     return NotFound();
                 }
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/EnderecoFuncionario/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEnderecoModel(int id)
+        [HttpDelete("{cpf}")]
+        public async Task<IActionResult> DeleteEnderecoModel(string cpf)
         {
             if (_context.EnderecoModel == null)
             {
                 return NotFound();
             }
-            var enderecoModel = await _context.EnderecoModel.FindAsync(id);
+            var enderecoModel = await _context.EnderecoModel.FindAsync(cpf);
             if (enderecoModel == null)
             {
                 return NotFound();
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool EnderecoModelExists(int id)
+        private bool EnderecoModelExists(string cpf)
         {
-            return (_context.EnderecoModel?.Any(e => e.id_endereco == id)).GetValueOrDefault();
+            return (_context.EnderecoModel?.Any(e => e.cpf_endereco == cpf)).GetValueOrDefault();
         }
     }
 }

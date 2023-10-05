@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/DependentesFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DependentesModel>> GetDependentesModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<DependentesModel>> GetDependentesModel(string cpf)
         {
           if (_context.DependentesModel == null)
           {
               return NotFound();
           }
-            var dependentesModel = await _context.DependentesModel.FindAsync(id);
+            var dependentesModel = await _context.DependentesModel.FirstOrDefaultAsync(d => d.cpf_dependentes == cpf);
 
             if (dependentesModel == null)
             {
@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/DependentesFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDependentesModel(int id, DependentesModel dependentesModel)
+        [HttpPut("{cpf}")]
+        public async Task<IActionResult> PutDependentesModel(string cpf, DependentesModel dependentesModel)
         {
-            if (id != dependentesModel.id_dependentes)
+            if (cpf != dependentesModel.cpf_dependentes)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DependentesModelExists(id))
+                if (!DependentesModelExists(cpf))
                 {
                     return NotFound();
                 }
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/DependentesFuncionario/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDependentesModel(int id)
+        [HttpDelete("{cpf}")]
+        public async Task<IActionResult> DeleteDependentesModel(string cpf)
         {
             if (_context.DependentesModel == null)
             {
                 return NotFound();
             }
-            var dependentesModel = await _context.DependentesModel.FindAsync(id);
+            var dependentesModel = await _context.DependentesModel.FindAsync(cpf);
             if (dependentesModel == null)
             {
                 return NotFound();
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool DependentesModelExists(int id)
+        private bool DependentesModelExists(string cpf)
         {
-            return (_context.DependentesModel?.Any(e => e.id_dependentes == id)).GetValueOrDefault();
+            return (_context.DependentesModel?.Any(e => e.cpf_dependentes == cpf)).GetValueOrDefault();
         }
     }
 }

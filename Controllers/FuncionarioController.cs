@@ -62,7 +62,20 @@ namespace PIM_IV.Controllers
 
             if (funcionarioModel.data_nascimento_funcionario.HasValue)
             {
-                funcionarioModel.data_nascimento_funcionario = funcionarioModel.data_nascimento_funcionario.Value.Date.ToUniversalTime();
+                funcionarioModel.data_nascimento_funcionario = funcionarioModel.data_nascimento_funcionario.Value.Date;
+            }
+
+            if (funcionarioModel.data_nascimento_funcionario.HasValue)
+            {
+                DateTime dataNascimento = funcionarioModel.data_nascimento_funcionario.Value;
+                int idade = DateTime.Now.Year - dataNascimento.Year;
+
+                if (DateTime.Now < dataNascimento.AddYears(idade))
+                {
+                    idade--;
+                }
+
+                funcionarioModel.idade_funcionario = idade;
             }
 
             _context.Entry(funcionarioModel).State = EntityState.Modified;
