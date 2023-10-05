@@ -28,7 +28,7 @@ namespace PIM_IV.Models
         }
 
         public FuncionarioModel(int id_funcionario, bool funcionario_ativo, string nome_funcionario, string sobrenome_funcionario, 
-            string cpf_funcionario, string rg_funcionario, string pis, string reservista, DateTime data_nascimento_funcionario, int idade_funcionario, 
+            string cpf_funcionario, string rg_funcionario, string pis, string reservista, DateTime? data_nascimento_funcionario, int idade_funcionario, 
             string sexo_funcionario, string foto_funcionario, string carteira_trabalho_funcionario)
         {
             this.id_funcionario = id_funcionario;

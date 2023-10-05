@@ -2,12 +2,11 @@
 {
     public interface IFuncionarioCompleto
     {
-        void FuncionarioCompleto(FuncionarioModel funcionario, EnderecoModel endereco, ContatoModel contato, DependentesModel dependentes, RecursosHumanosModel recursosHumanos);
-
         List<FuncionarioModel> GetFuncionarioModel();
         List<EnderecoModel> GetEnderecoModel();
         List<ContatoModel> GetContatoModel();
         List<DependentesModel> GetDependentesModel();
         List<RecursosHumanosModel> GetRecursosHumanosModel();
+        void AddFuncionarioCompleto(FuncionarioModel funcionario, ContatoModel contatoFuncionario, EnderecoModel enderecoFuncionario, DependentesModel dependentes, RecursosHumanosModel recursosHumanos);
     }
 }
