@@ -15,5 +15,9 @@ namespace PIM_IV.Infra
             }
         }
         public DbSet<PIM_IV.Models.FuncionarioModel> FuncionarioModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.ContatoModel> ContatoModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.EnderecoModel> EnderecoModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.DependentesModel> DependentesModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.RecursosHumanosModel> RecursosHumanosModel { get; set; } = default!;
     }
 }
