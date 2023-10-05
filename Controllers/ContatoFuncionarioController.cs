@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contatos")]
     [ApiController]
     public class ContatoFuncionarioController : ControllerBase
     {
