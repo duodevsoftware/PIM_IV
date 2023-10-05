@@ -9,7 +9,7 @@ namespace PIM_IV.Models
         [Key]
         public int id_contato { get; set; }
         public string cpf_contato { get; set; }
-        public string tipo { get; set; }
+        public string tipo_contato { get; set; }
         public string ddd { get; set; }
         public string numero_telefone { get; set; }
         public string email { get; set; }
@@ -19,11 +19,11 @@ namespace PIM_IV.Models
 
         }
 
-        public ContatoModel(int id_contato, string cpf_contato, string tipo, string ddd, string numero_telefone, string email)
+        public ContatoModel(int id_contato, string cpf_contato, string tipo_contato, string ddd, string numero_telefone, string email)
         {
             this.id_contato = id_contato;
             this.cpf_contato = cpf_contato;
-            this.tipo = tipo;
+            this.tipo_contato = tipo_contato;
             this.ddd = ddd;
             this.numero_telefone = numero_telefone;
             this.email = email;

@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/recursos_humanos")]
+    [Route("api/recursosHumanos")]
     [ApiController]
     public class RecursosHumanosController : ControllerBase
     {
