@@ -60,13 +60,6 @@ namespace PIM_IV.Controllers
                 return BadRequest();
             }
 
-            //var funcionarioExistente = await _context.FuncionarioModel.FirstOrDefaultAsync(f => f.cpf_funcionario == cpf);
-
-            //if (funcionarioExistente == null)
-            //{
-            //    return NotFound("Funcionário não encontrado.");
-            //}
-
             if (funcionarioModel.data_nascimento_funcionario.HasValue)
             {
                 funcionarioModel.data_nascimento_funcionario = funcionarioModel.data_nascimento_funcionario.Value.Date.ToUniversalTime();
