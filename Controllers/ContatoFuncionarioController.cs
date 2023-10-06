@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contatos")]
     [ApiController]
     public class ContatoFuncionarioController : ControllerBase
     {
@@ -33,16 +33,16 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/ContatoFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ContatoModel>> GetContatoModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<List<ContatoModel>>> GetContatoModel(string cpf)
         {
           if (_context.ContatoModel == null)
           {
               return NotFound();
           }
-            var contatoModel = await _context.ContatoModel.FindAsync(id);
+            var contatoModel = await _context.ContatoModel.Where(c => c.cpf_contato == cpf).ToListAsync();
 
-            if (contatoModel == null)
+            if (contatoModel == null || contatoModel.Count == 0)
             {
                 return NotFound();
             }

@@ -1,3 +1,6 @@
+using PIM_IV.Infra;
+using PIM_IV.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<PIM_IV.Infra.ConnectionContext>();
+builder.Services.AddScoped<IFuncionarioCompleto, FuncionarioCompletoRepository>();
 
 var app = builder.Build();
 

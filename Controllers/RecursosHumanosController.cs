@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/recursosHumanos")]
     [ApiController]
     public class RecursosHumanosController : ControllerBase
     {
@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/RecursosHumanos/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RecursosHumanosModel>> GetRecursosHumanosModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<RecursosHumanosModel>> GetRecursosHumanosModel(string cpf)
         {
           if (_context.RecursosHumanosModel == null)
           {
               return NotFound();
           }
-            var recursosHumanosModel = await _context.RecursosHumanosModel.FindAsync(id);
+            var recursosHumanosModel = await _context.RecursosHumanosModel.FirstOrDefaultAsync(r => r.cpf_rh == cpf);
 
             if (recursosHumanosModel == null)
             {
@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/RecursosHumanos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecursosHumanosModel(int id, RecursosHumanosModel recursosHumanosModel)
+        [HttpPut("{cpf}")]
+        public async Task<IActionResult> PutRecursosHumanosModel(string cpf, RecursosHumanosModel recursosHumanosModel)
         {
-            if (id != recursosHumanosModel.id_rh)
+            if (cpf != recursosHumanosModel.cpf_rh)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecursosHumanosModelExists(id))
+                if (!RecursosHumanosModelExists(cpf))
                 {
                     return NotFound();
                 }
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/RecursosHumanos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecursosHumanosModel(int id)
+        [HttpDelete("{cpf}")]
+        public async Task<IActionResult> DeleteRecursosHumanosModel(string cpf)
         {
             if (_context.RecursosHumanosModel == null)
             {
                 return NotFound();
             }
-            var recursosHumanosModel = await _context.RecursosHumanosModel.FindAsync(id);
+            var recursosHumanosModel = await _context.RecursosHumanosModel.FindAsync(cpf);
             if (recursosHumanosModel == null)
             {
                 return NotFound();
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool RecursosHumanosModelExists(int id)
+        private bool RecursosHumanosModelExists(string cpf)
         {
-            return (_context.RecursosHumanosModel?.Any(e => e.id_rh == id)).GetValueOrDefault();
+            return (_context.RecursosHumanosModel?.Any(r => r.cpf_rh == cpf)).GetValueOrDefault();
         }
     }
 }

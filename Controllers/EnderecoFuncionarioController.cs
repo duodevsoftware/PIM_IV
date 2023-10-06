@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/enderecos")]
     [ApiController]
     public class EnderecoFuncionarioController : ControllerBase
     {
@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/EnderecoFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EnderecoModel>> GetEnderecoModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<List<EnderecoModel>>> GetEnderecoModel(string cpf)
         {
           if (_context.EnderecoModel == null)
           {
               return NotFound();
           }
-            var enderecoModel = await _context.EnderecoModel.FindAsync(id);
+            var enderecoModel = await _context.EnderecoModel.Where(e => e.cpf_endereco == cpf).ToListAsync();
 
             if (enderecoModel == null)
             {

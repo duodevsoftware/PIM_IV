@@ -10,7 +10,7 @@ using PIM_IV.Models;
 
 namespace PIM_IV.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/dependentes")]
     [ApiController]
     public class DependentesFuncionarioController : ControllerBase
     {
@@ -33,14 +33,14 @@ namespace PIM_IV.Controllers
         }
 
         // GET: api/DependentesFuncionario/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DependentesModel>> GetDependentesModel(int id)
+        [HttpGet("{cpf}")]
+        public async Task<ActionResult<List<DependentesModel>>> GetDependentesModel(string cpf)
         {
           if (_context.DependentesModel == null)
           {
               return NotFound();
           }
-            var dependentesModel = await _context.DependentesModel.FindAsync(id);
+            var dependentesModel = await _context.DependentesModel.Where(d => d.cpf_dependentes == cpf).ToListAsync();
 
             if (dependentesModel == null)
             {

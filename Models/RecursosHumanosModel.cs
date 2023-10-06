@@ -15,6 +15,8 @@ namespace PIM_IV.Models
         public string cargo { get; set; }
         public string login {  get; set; }
         public string senha { get; set; }
+
+        [Column(TypeName = "double precision")]
         public float salario { get; set; }
 
         public RecursosHumanosModel()
