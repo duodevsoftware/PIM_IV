@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/EnderecoFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{cpf}")]
-        public async Task<IActionResult> PutEnderecoModel(string cpf, EnderecoModel enderecoModel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutEnderecoModel(int id, EnderecoModel enderecoModel)
         {
-            if (cpf != enderecoModel.cpf_endereco)
+            if (id != enderecoModel.id_endereco)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EnderecoModelExists(cpf))
+                if (!EnderecoModelExists(id))
                 {
                     return NotFound();
                 }
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool EnderecoModelExists(string cpf)
+        private bool EnderecoModelExists(int id)
         {
-            return (_context.EnderecoModel?.Any(e => e.cpf_endereco == cpf)).GetValueOrDefault();
+            return (_context.EnderecoModel?.Any(e => e.id_endereco == id)).GetValueOrDefault();
         }
     }
 }

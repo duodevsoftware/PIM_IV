@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/DependentesFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{cpf}")]
-        public async Task<IActionResult> PutDependentesModel(string cpf, DependentesModel dependentesModel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDependentesModel(int id, DependentesModel dependentesModel)
         {
-            if (cpf != dependentesModel.cpf_dependentes)
+            if (id != dependentesModel.id_dependentes)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DependentesModelExists(cpf))
+                if (!DependentesModelExists(id))
                 {
                     return NotFound();
                 }
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool DependentesModelExists(string cpf)
+        private bool DependentesModelExists(int id)
         {
-            return (_context.DependentesModel?.Any(e => e.cpf_dependentes == cpf)).GetValueOrDefault();
+            return (_context.DependentesModel?.Any(e => e.id_dependentes == id)).GetValueOrDefault();
         }
     }
 }

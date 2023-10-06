@@ -52,10 +52,10 @@ namespace PIM_IV.Controllers
 
         // PUT: api/ContatoFuncionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{cpf}")]
-        public async Task<IActionResult> PutContatoModel(string cpf, ContatoModel contatoModel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutContatoModel(int id, ContatoModel contatoModel)
         {
-            if (cpf != contatoModel.cpf_contato)
+            if (id != contatoModel.id_contato)
             {
                 return BadRequest();
             }
@@ -68,7 +68,7 @@ namespace PIM_IV.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContatoModelExists(cpf))
+                if (!ContatoModelExists(id))
                 {
                     return NotFound();
                 }
@@ -116,9 +116,9 @@ namespace PIM_IV.Controllers
             return NoContent();
         }
 
-        private bool ContatoModelExists(string cpf)
+        private bool ContatoModelExists(int id)
         {
-            return (_context.ContatoModel?.Any(e => e.cpf_contato == cpf)).GetValueOrDefault();
+            return (_context.ContatoModel?.Any(e => e.id_contato == id)).GetValueOrDefault();
         }
     }
 }
