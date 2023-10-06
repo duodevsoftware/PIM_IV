@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PIM_IV.Infra;
@@ -46,6 +47,30 @@ namespace PIM_IV.Controllers
             }
 
             return recursosHumanosModel;
+        }
+
+        [HttpGet("bemVindo")]
+        public async Task<ActionResult<RecursosHumanosModel>> AcessarSistema(string login, string senha)
+        {
+            var usuario = await _context.RecursosHumanosModel.SingleOrDefaultAsync(u => u.login == login);
+            //var senhaDigitada = await _context.RecursosHumanosModel.SingleOrDefaultAsync(s => s.senha == senha);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            
+            if(usuario.senha != senha)
+            {
+                return BadRequest("Senha inválida");
+            }
+
+            if(usuario.senha == senha)
+            {
+                return Ok("Acesso autorizado!");
+            }
+
+            return Ok("Vai Corinthians");
         }
 
         [HttpPut("{cpf}")]
