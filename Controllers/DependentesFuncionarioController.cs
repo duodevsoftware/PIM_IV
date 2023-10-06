@@ -34,13 +34,13 @@ namespace PIM_IV.Controllers
 
         // GET: api/DependentesFuncionario/5
         [HttpGet("{cpf}")]
-        public async Task<ActionResult<DependentesModel>> GetDependentesModel(string cpf)
+        public async Task<ActionResult<List<DependentesModel>>> GetDependentesModel(string cpf)
         {
           if (_context.DependentesModel == null)
           {
               return NotFound();
           }
-            var dependentesModel = await _context.DependentesModel.FirstOrDefaultAsync(d => d.cpf_dependentes == cpf);
+            var dependentesModel = await _context.DependentesModel.Where(d => d.cpf_dependentes == cpf).ToListAsync();
 
             if (dependentesModel == null)
             {
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/DependentesFuncionario/5
-        [HttpDelete("{cpf}")]
-        public async Task<IActionResult> DeleteDependentesModel(string cpf)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDependentesModel(int id)
         {
             if (_context.DependentesModel == null)
             {
                 return NotFound();
             }
-            var dependentesModel = await _context.DependentesModel.FindAsync(cpf);
+            var dependentesModel = await _context.DependentesModel.FindAsync(id);
             if (dependentesModel == null)
             {
                 return NotFound();

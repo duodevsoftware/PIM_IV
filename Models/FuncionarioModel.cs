@@ -42,7 +42,7 @@ namespace PIM_IV.Models
             this.data_nascimento_funcionario = data_nascimento_funcionario;
             this.idade_funcionario = idade_funcionario;
             this.sexo_funcionario = sexo_funcionario;
-            this.foto_funcionario = foto_funcionario = null;
+            this.foto_funcionario = foto_funcionario;
             this.carteira_trabalho_funcionario = carteira_trabalho_funcionario;
         }
     }

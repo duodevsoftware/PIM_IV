@@ -46,50 +46,5 @@ namespace PIM_IV.Controllers
             var response = buscarFuncionario.ToList();
             return Ok(response);
         }
-
-        // POST: api/funcionariosCompletos
-        [HttpPost]
-        public async Task<ActionResult<FuncionarioCompletoModel>> AddFuncionarioCompleto (FuncionarioCompletoModel funcionarioCompleto)
-        {
-            try
-            {
-                var funcionario = new FuncionarioModel(funcionarioCompleto.id_funcionario, funcionarioCompleto.funcionario_ativo, funcionarioCompleto.nome_funcionario, funcionarioCompleto.sobrenome_funcionario, funcionarioCompleto.cpf_funcionario,
-                   funcionarioCompleto.rg_funcionario, funcionarioCompleto.pis, funcionarioCompleto.reservista, funcionarioCompleto.data_nascimento_funcionario, funcionarioCompleto.idade_funcionario, funcionarioCompleto.sexo_funcionario,
-                   funcionarioCompleto.foto_funcionario, funcionarioCompleto.carteira_trabalho_funcionario);
-
-                var contatoFuncionario = new ContatoModel(funcionarioCompleto.id_contato, funcionarioCompleto.cpf_contato, funcionarioCompleto.tipo_contato, funcionarioCompleto.ddd, funcionarioCompleto.numero_telefone, funcionarioCompleto.email);
-
-                var enderecoFuncionario = new EnderecoModel(funcionarioCompleto.id_endereco, funcionarioCompleto.cpf_endereco, funcionarioCompleto.tipo_endereco, funcionarioCompleto.logradouro, funcionarioCompleto.nome_residencial, funcionarioCompleto.numero_residencial,
-                   funcionarioCompleto.complemento, funcionarioCompleto.bairro, funcionarioCompleto.cep, funcionarioCompleto.cidade, funcionarioCompleto.estado);
-
-                var dependentes = new DependentesModel(funcionarioCompleto.id_dependentes, funcionarioCompleto.cpf_dependentes, funcionarioCompleto.parentesco, funcionarioCompleto.nome);
-
-                var recursosHumanos = new RecursosHumanosModel(funcionarioCompleto.id_rh, funcionarioCompleto.cpf_rh, funcionarioCompleto.data_admissao, funcionarioCompleto.convenio_medico, funcionarioCompleto.convenio_odontologico, funcionarioCompleto.cargo,
-                   funcionarioCompleto.login, funcionarioCompleto.senha, funcionarioCompleto.salario);
-
-                if (funcionario.data_nascimento_funcionario.HasValue)
-                {
-                    DateTime dataNascimento = funcionario.data_nascimento_funcionario.Value;
-                    int idade = DateTime.Now.Year - dataNascimento.Year;
-
-                    if (DateTime.Now < dataNascimento.AddYears(idade))
-                    {
-                        idade--;
-                    }
-
-                    funcionario.idade_funcionario = idade;
-                }
-
-                // Salvar os objetos no repositório
-                _funcionarioRepository.AddFuncionarioCompleto(funcionario, contatoFuncionario, enderecoFuncionario, dependentes, recursosHumanos);
-
-                // Retornar um status 201 Created com a URI para o novo recurso criado
-                return CreatedAtAction("detalhes do funcionario", new { cpf = funcionario.cpf_funcionario }, funcionario);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Erro ao adicionar funcionário: {ex.Message}");
-            }
-        }
     }
 }

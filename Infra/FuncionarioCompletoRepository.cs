@@ -12,48 +12,6 @@ namespace PIM_IV.Infra
             _conectionContext = connectionContext;
         }
 
-        public void AddFuncionarioCompleto(FuncionarioModel funcionario, ContatoModel contatoFuncionario, EnderecoModel enderecoFuncionario, DependentesModel dependentes, RecursosHumanosModel recursosHumanos)
-        {
-            using (var transaction = _conectionContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    _conectionContext.FuncionarioModel.Add(funcionario);
-                    _conectionContext.SaveChanges();
-
-                    _conectionContext.ContatoModel.Add(contatoFuncionario);
-                    _conectionContext.SaveChanges();
-
-                    _conectionContext.EnderecoModel.Add(enderecoFuncionario);
-                    _conectionContext.SaveChanges();
-
-                    _conectionContext.DependentesModel.Add(dependentes);
-                    _conectionContext.SaveChanges();
-
-                    _conectionContext.RecursosHumanosModel.Add(recursosHumanos);
-                    _conectionContext.SaveChanges();
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    var innerException = ex.InnerException;
-
-                    while (innerException != null)
-                    {
-                        // Registre os detalhes da exceção interna
-                        Console.WriteLine($"Inner Exception Message: {innerException.Message}");
-                        Console.WriteLine($"Inner Exception Stack Trace: {innerException.StackTrace}");
-
-                        innerException = innerException.InnerException;
-                    }
-                    
-                    Console.WriteLine($"Erro ao adicionar funcionário: {ex.Message}");
-                }
-            }
-        }
-
         public List<ContatoModel> GetContatoModel()
         {
             return _conectionContext.ContatoModel.ToList();

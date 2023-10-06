@@ -34,13 +34,13 @@ namespace PIM_IV.Controllers
 
         // GET: api/EnderecoFuncionario/5
         [HttpGet("{cpf}")]
-        public async Task<ActionResult<EnderecoModel>> GetEnderecoModel(string cpf)
+        public async Task<ActionResult<List<EnderecoModel>>> GetEnderecoModel(string cpf)
         {
           if (_context.EnderecoModel == null)
           {
               return NotFound();
           }
-            var enderecoModel = await _context.EnderecoModel.FirstOrDefaultAsync(e => e.cpf_endereco == cpf);
+            var enderecoModel = await _context.EnderecoModel.Where(e => e.cpf_endereco == cpf).ToListAsync();
 
             if (enderecoModel == null)
             {
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/EnderecoFuncionario/5
-        [HttpDelete("{cpf}")]
-        public async Task<IActionResult> DeleteEnderecoModel(string cpf)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEnderecoModel(int id)
         {
             if (_context.EnderecoModel == null)
             {
                 return NotFound();
             }
-            var enderecoModel = await _context.EnderecoModel.FindAsync(cpf);
+            var enderecoModel = await _context.EnderecoModel.FindAsync(id);
             if (enderecoModel == null)
             {
                 return NotFound();

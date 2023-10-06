@@ -7,6 +7,5 @@
         List<ContatoModel> GetContatoModel();
         List<DependentesModel> GetDependentesModel();
         List<RecursosHumanosModel> GetRecursosHumanosModel();
-        void AddFuncionarioCompleto(FuncionarioModel funcionario, ContatoModel contatoFuncionario, EnderecoModel enderecoFuncionario, DependentesModel dependentes, RecursosHumanosModel recursosHumanos);
     }
 }

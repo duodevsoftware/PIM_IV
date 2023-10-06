@@ -34,15 +34,15 @@ namespace PIM_IV.Controllers
 
         // GET: api/ContatoFuncionario/5
         [HttpGet("{cpf}")]
-        public async Task<ActionResult<ContatoModel>> GetContatoModel(string cpf)
+        public async Task<ActionResult<List<ContatoModel>>> GetContatoModel(string cpf)
         {
           if (_context.ContatoModel == null)
           {
               return NotFound();
           }
-            var contatoModel = await _context.ContatoModel.FirstOrDefaultAsync(c => c.cpf_contato == cpf);
+            var contatoModel = await _context.ContatoModel.Where(c => c.cpf_contato == cpf).ToListAsync();
 
-            if (contatoModel == null)
+            if (contatoModel == null || contatoModel.Count == 0)
             {
                 return NotFound();
             }
@@ -97,14 +97,14 @@ namespace PIM_IV.Controllers
         }
 
         // DELETE: api/ContatoFuncionario/5
-        [HttpDelete("{cpf}")]
-        public async Task<IActionResult> DeleteContatoModel(string cpf)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteContatoModel(int id)
         {
             if (_context.ContatoModel == null)
             {
                 return NotFound();
             }
-            var contatoModel = await _context.ContatoModel.FindAsync(cpf);
+            var contatoModel = await _context.ContatoModel.FindAsync(id);
             if (contatoModel == null)
             {
                 return NotFound();
