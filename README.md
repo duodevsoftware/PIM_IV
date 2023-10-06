@@ -5,6 +5,7 @@
 🔗 Endpoints
 
   ContatoFuncionário
+  
     GET
     /api/contatos
 
@@ -21,6 +22,7 @@
     /api/contatos/{id}
 
   DependentesFuncionário
+  
     GET
     /api/dependentes
 
@@ -37,6 +39,7 @@
     /api/dependentes/{id}
 
   EnderecoFuncionário
+  
     GET
     /api/enderecos
 
@@ -53,6 +56,7 @@
     /api/enderecos/{id}
 
   Funcionario
+  
     GET
     /api/funcionarios
 
@@ -69,10 +73,12 @@
     /api/funcionarios/{id}
 
   FuncionarioCompleto
+  
     GET
     /api/funcionariosCompletos
 
   RecursosHumanos
+  
     GET
     /api/recursosHumanos
 
