@@ -53,7 +53,6 @@ namespace PIM_IV.Controllers
         public async Task<ActionResult<RecursosHumanosModel>> AcessarSistema(string login, string senha)
         {
             var usuario = await _context.RecursosHumanosModel.SingleOrDefaultAsync(u => u.login == login);
-            //var senhaDigitada = await _context.RecursosHumanosModel.SingleOrDefaultAsync(s => s.senha == senha);
 
             if (usuario == null)
             {
