@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PIM_IV.Infra;
@@ -24,7 +25,7 @@ namespace PIM_IV.Controllers
 
         // GET: api/RegistroPonto
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegistroPontoModel>>> GetRegistroPontoModel()
+        public async Task<ActionResult<List<RegistroPontoModel>>> GetRegistroPontoModel()
         {
           if (_context.RegistroPontoModel == null)
           {
@@ -52,16 +53,16 @@ namespace PIM_IV.Controllers
         }
 
         [HttpPost("bater-ponto")]
-        public async Task<IActionResult> BaterPonto(string cpf)
+        public async Task<ActionResult<RegistroPontoModel>> BaterPonto(string cpf)
         {
             var horaAtual = DateTime.Now.ToUniversalTime();
 
-            var funcionario = await _context.RegistroPontoModel
+            var registroPontoModel = await _context.RegistroPontoModel
                 .FirstOrDefaultAsync(r => r.cpf_registro_ponto == cpf && r.data_registro == horaAtual.Date);
-
-            if (funcionario == null)
+            
+            if (registroPontoModel == null)
             {
-                funcionario = new RegistroPontoModel
+                registroPontoModel = new RegistroPontoModel
                 {
                     cpf_registro_ponto = cpf,
                     entrada = horaAtual.TimeOfDay,
@@ -72,29 +73,33 @@ namespace PIM_IV.Controllers
                     entrada_extra = null,
                     saida_extra = null
                 };
-                _context.RegistroPontoModel.Add(funcionario);
+                _context.RegistroPontoModel.Add(registroPontoModel);
             }
             else
             {
-                if (funcionario.saida_almoco == null)
+                if (registroPontoModel.saida_almoco == null)
                 {
-                    funcionario.saida_almoco = horaAtual.TimeOfDay;
+                    registroPontoModel.saida_almoco = horaAtual.TimeOfDay;
                 }
-                else if (funcionario.volta_almoco == null)
+                else if (registroPontoModel.volta_almoco == null)
                 {
-                    funcionario.volta_almoco = horaAtual.TimeOfDay;
+                    registroPontoModel.volta_almoco = horaAtual.TimeOfDay;
                 }
-                else if (funcionario.saida == null)
+                else if (registroPontoModel.saida == null)
                 {
-                    funcionario.saida = horaAtual.TimeOfDay;
+                    registroPontoModel.saida = horaAtual.TimeOfDay;
                 }
-                else if (funcionario.entrada_extra == null)
+                else if (registroPontoModel.entrada_extra == null)
                 {
-                    funcionario.entrada_extra = horaAtual.TimeOfDay;
+                    registroPontoModel.entrada_extra = horaAtual.TimeOfDay;
                 }
-                else if (funcionario.saida_extra == null)
+                else if (registroPontoModel.saida_extra == null)
                 {
-                    funcionario.saida_extra = horaAtual.TimeOfDay;
+                    registroPontoModel.saida_extra = horaAtual.TimeOfDay;
+                }
+                else
+                {
+                    return BadRequest("Registros excedidos no dia");
                 }
             }
 
@@ -107,7 +112,11 @@ namespace PIM_IV.Controllers
                 return BadRequest();
             }
 
-            return NoContent();
+            return CreatedAtAction("BaterPonto", new { id = registroPontoModel.id_ponto }, new
+            {
+                id = registroPontoModel.id_ponto,
+                dataAtual = horaAtual
+            });
         }
 
         // DELETE: api/RegistroPonto/5

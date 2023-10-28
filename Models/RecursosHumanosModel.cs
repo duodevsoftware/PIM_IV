@@ -15,16 +15,14 @@ namespace PIM_IV.Models
         public string cargo { get; set; }
         public string login {  get; set; }
         public string senha { get; set; }
-
-        [Column(TypeName = "double precision")]
-        public float salario { get; set; }
+        public decimal salario { get; set; }
 
         public RecursosHumanosModel()
         {
 
         }
 
-        public RecursosHumanosModel(int id_rh, string cpf_rh, DateOnly? data_admissao, bool convenio_medico, bool convenio_odontologico, string cargo, string login, string senha, float salario)
+        public RecursosHumanosModel(int id_rh, string cpf_rh, DateOnly? data_admissao, bool convenio_medico, bool convenio_odontologico, string cargo, string login, string senha, decimal salario)
         {
             this.id_rh = id_rh;
             this.cpf_rh = cpf_rh;
