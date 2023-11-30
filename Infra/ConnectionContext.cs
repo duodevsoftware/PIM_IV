@@ -5,6 +5,10 @@ namespace PIM_IV.Infra
 {
     public class ConnectionContext : DbContext
     {
+        static ConnectionContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -15,5 +19,11 @@ namespace PIM_IV.Infra
             }
         }
         public DbSet<PIM_IV.Models.FuncionarioModel> FuncionarioModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.ContatoModel> ContatoModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.EnderecoModel> EnderecoModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.DependentesModel> DependentesModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.RecursosHumanosModel> RecursosHumanosModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.RegistroPontoModel> RegistroPontoModel { get; set; } = default!;
+        public DbSet<PIM_IV.Models.FolhaDePagamentoModel> FolhaDePagamentoModel { get; set; } = default!;
     }
 }
