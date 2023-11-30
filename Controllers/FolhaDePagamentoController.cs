@@ -21,7 +21,7 @@ namespace PIM_IV.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("BuscarTodos")]
         public async Task<ActionResult<IEnumerable<FolhaDePagamentoModel>>> BuscarTodas()
         {
           if (_context.FolhaDePagamentoModel == null)
@@ -31,7 +31,7 @@ namespace PIM_IV.Controllers
             return await _context.FolhaDePagamentoModel.ToListAsync();
         }
 
-        [HttpGet("{cpf}")]
+        /*[HttpGet("{cpf}")]
         public async Task<ActionResult<FolhaDePagamentoModel>> BuscarPorCpf (string cpf)
         {
             if(_context.FolhaDePagamentoModel == null)
@@ -48,7 +48,7 @@ namespace PIM_IV.Controllers
 
             return Ok(folhaDePagamentoModel);
 
-        }
+        }*/
 
         [HttpGet("{id}")]
         public async Task<ActionResult<FolhaDePagamentoModel>> FolhaDePagamentoIndividual(int id)
@@ -67,7 +67,7 @@ namespace PIM_IV.Controllers
             return folhaDePagamentoModel;
         }
 
-        [HttpPost]
+        [HttpPost("CalcularFolha")]
         public async Task<ActionResult<FolhaDePagamentoModel>> CalcularFolhaDePagamento(string cpf, DateTime referencia, DateTime pagamento)
         {
             FolhaDePagamentoModel folhaDePagamento = new FolhaDePagamentoModel();
@@ -193,7 +193,7 @@ namespace PIM_IV.Controllers
             _context.FolhaDePagamentoModel.Add(folhaDePagamento);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFolhaDePagamentoModel", new { id = folhaDePagamento.id_pagamento }, folhaDePagamento);
+            return CreatedAtAction("FolhaDePagamentoIndividual", new { id = folhaDePagamento.id_pagamento }, folhaDePagamento);
         }
 
         [HttpDelete("{id}")]
