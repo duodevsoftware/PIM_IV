@@ -5,6 +5,10 @@ namespace PIM_IV.Infra
 {
     public class ConnectionContext : DbContext
     {
+        static ConnectionContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

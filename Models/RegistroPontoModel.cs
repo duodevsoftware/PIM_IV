@@ -9,12 +9,12 @@ namespace PIM_IV.Models
         [Key]
         public int id_ponto {  get; set; }
         public string cpf_registro_ponto { get; set; }
-        public TimeSpan entrada {  get; set; }
-        public TimeSpan? saida_almoco {  get; set; }
-        public TimeSpan? volta_almoco { get; set; }
-        public TimeSpan? saida { get; set; }
-        public TimeSpan? entrada_extra {  get; set; }
-        public TimeSpan? saida_extra {  get; set; }
+        public DateTime? entrada {  get; set; }
+        public DateTime? saida_almoco {  get; set; }
+        public DateTime? volta_almoco { get; set; }
+        public DateTime? saida { get; set; }
+        public DateTime? entrada_extra {  get; set; }
+        public DateTime? saida_extra {  get; set; }
         public DateTime data_registro { get; set; }
         
         public RegistroPontoModel()
@@ -22,8 +22,8 @@ namespace PIM_IV.Models
 
         }
 
-        public RegistroPontoModel(int id_ponto, string cpf_registro_ponto, TimeSpan entrada, TimeSpan saida_almoco, TimeSpan volta_almoco, TimeSpan saida,
-            TimeSpan entrada_extra, TimeSpan saida_extra, DateTime data_registro)
+        public RegistroPontoModel(int id_ponto, string cpf_registro_ponto, DateTime? entrada, DateTime? saida_almoco, DateTime? volta_almoco, DateTime? saida,
+            DateTime? entrada_extra, DateTime? saida_extra, DateTime data_registro)
         {
             this.id_ponto = id_ponto;
             this.cpf_registro_ponto = cpf_registro_ponto;

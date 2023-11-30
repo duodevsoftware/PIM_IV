@@ -23,7 +23,6 @@ namespace PIM_IV.Controllers
             _context = context;
         }
 
-        // GET: api/RegistroPonto
         [HttpGet]
         public async Task<ActionResult<List<RegistroPontoModel>>> GetRegistroPontoModel()
         {
@@ -34,7 +33,6 @@ namespace PIM_IV.Controllers
             return await _context.RegistroPontoModel.ToListAsync();
         }
 
-        // GET: api/RegistroPonto/5
         [HttpGet("{cpf}")]
         public async Task<ActionResult<List<RegistroPontoModel>>> GetRegistroPontoModel(string cpf)
         {
@@ -55,18 +53,19 @@ namespace PIM_IV.Controllers
         [HttpPost("bater-ponto")]
         public async Task<ActionResult<RegistroPontoModel>> BaterPonto(string cpf)
         {
-            var horaAtual = DateTime.Now.ToUniversalTime();
+            var horaAtualBrasilia = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. South America Standard Time");
+            var dataAtualBrasilia = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. South America Standard Time").Date;
 
             var registroPontoModel = await _context.RegistroPontoModel
-                .FirstOrDefaultAsync(r => r.cpf_registro_ponto == cpf && r.data_registro == horaAtual.Date);
+                .FirstOrDefaultAsync(r => r.cpf_registro_ponto == cpf && r.data_registro == dataAtualBrasilia.Date);
             
             if (registroPontoModel == null)
             {
                 registroPontoModel = new RegistroPontoModel
                 {
                     cpf_registro_ponto = cpf,
-                    entrada = horaAtual.TimeOfDay,
-                    data_registro = horaAtual.Date,
+                    entrada = horaAtualBrasilia,
+                    data_registro = horaAtualBrasilia,
                     saida_almoco = null,
                     volta_almoco = null,
                     saida = null,
@@ -79,23 +78,23 @@ namespace PIM_IV.Controllers
             {
                 if (registroPontoModel.saida_almoco == null)
                 {
-                    registroPontoModel.saida_almoco = horaAtual.TimeOfDay;
+                    registroPontoModel.saida_almoco = horaAtualBrasilia;
                 }
                 else if (registroPontoModel.volta_almoco == null)
                 {
-                    registroPontoModel.volta_almoco = horaAtual.TimeOfDay;
+                    registroPontoModel.volta_almoco = horaAtualBrasilia;
                 }
                 else if (registroPontoModel.saida == null)
                 {
-                    registroPontoModel.saida = horaAtual.TimeOfDay;
+                    registroPontoModel.saida = horaAtualBrasilia;
                 }
                 else if (registroPontoModel.entrada_extra == null)
                 {
-                    registroPontoModel.entrada_extra = horaAtual.TimeOfDay;
+                    registroPontoModel.entrada_extra = horaAtualBrasilia;
                 }
                 else if (registroPontoModel.saida_extra == null)
                 {
-                    registroPontoModel.saida_extra = horaAtual.TimeOfDay;
+                    registroPontoModel.saida_extra = horaAtualBrasilia;
                 }
                 else
                 {
@@ -115,11 +114,10 @@ namespace PIM_IV.Controllers
             return CreatedAtAction("BaterPonto", new { id = registroPontoModel.id_ponto }, new
             {
                 id = registroPontoModel.id_ponto,
-                dataAtual = horaAtual
+                dataAtual = dataAtualBrasilia
             });
         }
 
-        // DELETE: api/RegistroPonto/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRegistroPontoModel(int id)
         {
