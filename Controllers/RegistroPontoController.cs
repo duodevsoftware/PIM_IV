@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using PIM_IV.Infra;
 using PIM_IV.Models;
 
+//forcando commit para testar o GitHub Actions
 namespace PIM_IV.Controllers
 {
     [Route("api/registro_ponto")]
